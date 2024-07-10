@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bootstrap demo</title>
+  <!--Link para archivo css-->
+  <link rel="stylesheet" href="../../resources/css/home.css">
+  <link rel="stylesheet" href="../../resources/css/footer.css">
+  <link rel="stylesheet" href="../../resources/css/productview.css">
+  <link rel="stylesheet" href="../../resources/css/nav.css">
+
+  <!-- Llamada a las hojas de estilos del framework e iconos -->
+  <link rel="stylesheet" href="../../resources/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!--Llamada de tipografias-->
+  <link href="https://fonts.googleapis.com/css2?family=Rufina:wght@400;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+
+  <main>
+    <div class="container">
+
+      <div class="row">
+        <div class="col-md-5 mb-4">
+          <div class="card body" id="imagenPrenda">
+          </div>
+        </div>
+
+        <div class="col-md-7">
+          <div class="row">
+            <div class="col pt-5 mt-5">
+              <h2 id="nombrePrenda"></h2>
+              <p class="pt-1 mt-5" id="detallePrenda"></p>
+              <p class="d-inline-block me-3 mb-4 pt-3 mt-4 " id="precioPrenda"></p>
+              <button class="btn-flecha" id="upBtn">↑</button>
+              <span class="cantidad" id="cantidadPrenda">1</span>
+              <button class="btn-flecha" id="downBtn">↓</button>
+              <button class="btn2 mt-3 d-inline-block" id="addBtn">Add to Cart</button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col text-center pt-5 mt-5">
+              <h1>Featured Comments</h1>
+              <div class="starts">
+              </div>
+            </div>
+          </div>
+          <div class="container" id="comentarios">
+          </div>
+          <div class="container">
+            <div class="row pt-5">
+                <div class="col-2 mb-3 text-center">
+                    <!-- Botón para crear comentario -->
+                    <button  type="button" class="btn btn-primary" id="addComment">ADD COMMENT</button>
+                </div>
+            </div>
+        </div>
+        </div>
+
+
+      </div>
+
+      <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Formulario para guardar un registro -->
+                    <form id="saveForm">
+                        <div class="modal-body row g-3">
+                            <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                            <form id="saveForm">
+                                <div class="modal-body row g-3">
+                                    
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="detalleComentario" class="form-label">Type here:</label>
+                                        <textarea id="detalleComentario" type="text" name="detalleComentario"
+                                            class="form-control" rows="3" required></textarea>
+                                    </div>
+
+                                    <div class="stars" id = "starsContainer">
+                                      <button id="star1"><i class="bi bi-star-fill"></i></button>
+                                      <button id="star2"><i class="bi bi-star-fill"></i></button>
+                                      <button id="star3"><i class="bi bi-star-fill"></i></button>
+                                      <button id="star4"><i class="bi bi-star-fill"></i></button>
+                                      <button id="star5"><i class="bi bi-star-fill"></i></button>
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script> <!-- Llamada al controlador general de la aplicación -->
+
+  <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
+  <!-- Llamada al controlador general de la aplicación -->
+  <script type="text/javascript" src="../../controllers/utils/components.js"></script>
+  <!-- Llamada al controlador del sitio público -->
+  <script type="text/javascript" src="../../controllers/utils/public.js"></script>
+  <!-- Llamada al controlador de la página web -->
+  <script type="text/javascript" src="../../controllers/public/vista_previa.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comment</title>
+    <!-- Llamada a las hojas de estilos del framework e iconos -->
+    <link rel="stylesheet" href="../../resources/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../resources/css/admin.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+</head>
+
+<body>
+    <main>
+        <div class="container bg-secondary">
+            <div class="container">
+                <section class="p-3">
+                    <!-- Formulario de búsqueda -->
+                    <form class="col-sm-12 col-md-6" id="searchForm">
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="search" class="form-control" name="Search" placeholder="Search"   required>
+                            </div>
+                            <div class="col-6">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                                <button type="reset" class="btn btn-primary" onclick="fillTable()">
+                                    <i class="bi bi-x-square-fill"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="row">
+                        <div class="col-12">
+                            <table class="table table-striped table-hover mt-3 text-center table-bordered">
+                                <thead>
+                                    <tr>
+                                        <td colspan="5" id="rowsFound"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>DETAILS</th>
+                                        <th>QUALIFICATION</th>
+                                        <th>STATE</th>
+                                        <th>ACTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="data"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <script src="../../resources/js/sweetalert.min.js"></script>
+    <script src="../../controllers/utils/components.js"></script>
+    <script src="../../controllers/utils/admin.js"></script>
+    <script src="../../resources/js/bootstrap.bundle.min.js"></script>
+    <script src="../../controllers/admin/comentario.js"></script>
+
+</body>
+
+</html>

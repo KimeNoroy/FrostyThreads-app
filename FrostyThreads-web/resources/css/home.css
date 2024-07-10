@@ -1,0 +1,60 @@
+section {
+    background-color: #B1C8E4;
+    padding: 2%;
+}
+section h1{
+    font-family: "Rufina", serif;
+    color: #1F487E;
+}
+
+section p{
+    font-family: "Poppins", sans-serif;
+    color: #1F487E;
+}
+
+
+.btn2{
+    height: 45px;
+    width: 50%;
+    color: white;
+    outline: none;
+    border: none;
+    background:#1F487E;
+    font-family: "Poppins", sans-serif;  
+    
+   
+}
+.text-center {
+    font-family: "Poppins", sans-serif;
+    color: #224F34;
+
+}
+
+.text{
+    font-family: "Poppins", sans-serif;
+    color: #1F487E;
+}
+
+.logo{
+    text-align: right;
+}
+
+.custom-card{
+    background-color:#1F487E;
+}
+
+
+a{
+    text-decoration: none !important;
+   
+}
+
+
+
+h1, h2, p {
+    color: #00008B;
+}
+
+.btn-primary {
+    background-color: #00008B;
+}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Category</title>
+  <link rel="stylesheet" href="../../resources/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../resources/css/admin.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+
+<body>
+  <main>
+    <!-- Título del contenido principal -->
+    <h3 class="text-center py-3">Category Management</h3>
+    <div class="row">
+      <!-- Formulario de búsqueda -->
+      <form class="col-sm-12 col-md-6" id="searchForm">
+        <div class="row">
+          <div class="col-6">
+            <input type="search" class="form-control" id="search" name="search" placeholder="Search" required>
+          </div>
+          <div class="col-6">
+            <button type="submit" class="btn btn-success">
+              <i class="bi bi-search"></i>
+            </button>
+            <button type="reset" class="btn btn-secondary" onclick="fillTable()">
+              <i class="bi bi-x-square-fill"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+      <div class="col-sm-12 col-md-6 text-end">
+        <!-- Botón para abrir una caja de diálogo al momento de crear un nuevo registro -->
+        <button type="button" class="btn btn-primary" onclick="openCreate()">
+          <i class="bi bi-plus-square-fill"></i>
+        </button>
+      </div>
+    </div>
+    <!-- Tabla para mostrar los registros existentes -->
+    <table class="table table-hover">
+      <!-- Encabezado de la tabla para mostrar la cantidad de registros y los títulos de las columnas -->
+      <thead>
+        <tr>
+          <td colspan="4" id="rowsFound"></td>
+        </tr>
+        <tr>
+          <th>PICTURE</th>
+          <th>CATEGORY</th>
+          <th>DESCRIPCION</th>
+          <th>ACTION</th>
+        </tr>
+      </thead>
+      <!-- Cuerpo de la tabla para mostrar un registro por fila -->
+      <tbody id="tableBody"></tbody>
+    </table>
+    <!-- Modal Form-->
+    <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalTitle"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <!-- Formulario para guardar un registro -->
+            <form id="saveForm">
+              <div class="modal-body row g-3">
+                <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                <form id="saveForm">
+                  <div class="modal-body row g-3">
+                    <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                    <input type="number" class="d-none" id="idCategoria" name="idCategoria">
+                    <div class="col-sm-12 col-md-6">
+                      <label for="imagenCategoria" class="form-label">Imagen</label>
+                      <input id="imagenCategoria" type="file" name="imagenCategoria" class="form-control"
+                        accept=".png, .jpg">
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                      <label for="nombreCategoria" class="form-label">Nombre</label>
+                      <input id="nombreCategoria" type="text" name="nombreCategoria" class="form-control" required>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                      <label for="descripcionCategoria" class="form-label">Descripcion</label>
+                      <input id="descripcionCategoria" type="text" name="descripcionCategoria" class="form-control" required>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                  </div>
+                </form>
+              </div>
+          </div>
+        </div>
+  </main>
+
+  <script src="../../controllers/utils/admin.js"></script>
+  <script src="../../resources/js/bootstrap.bundle.min.js"></script>
+  <script src="../../controllers/utils/components.js"></script>
+  <script src="../../controllers/admin/categoria.js"></script>
+  <script src="../../resources/js/sweetalert.min.js"></script>
+</body>
+
+</html>

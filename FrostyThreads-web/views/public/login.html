@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frosty Threads</title>
+    <link rel="stylesheet" href="../../resources/css/catalog.css">
+    <link rel="stylesheet" href="../../resources/css/footer.css">
+    <link rel="stylesheet" href="../../resources/css/nav.css">
+
+    <!-- Llamada a las hojas de estilos del framework e iconos -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!--Llamada de tipografias-->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body >
+    <main>
+        <div class="bg-white p-5 rounded-2 text-secondary shadow" style="width: 30rem; margin-left:300px">
+            <div class="d-flex justify-content-center">
+            </div>
+            <div class="text-center fs-1 fw-bold custom-signup-color">LOGIN</div>
+            <!-- Formulario para iniciar sesión -->
+            <form class="row g-3" id="sessionForm">
+                <div class="input-group mt-4">
+                    <label for="correo" class="form-label"></label>
+                    <input type="email" id="emailCliente" name="emailCliente" class="form-control" required placeholder="Email" />
+                </div>
+
+                <div class="form-group mt-4">
+                    <label for="clave" class="form-label"></label>
+                    <input type="password" id="claveCliente" name="claveCliente" class="form-control" placeholder="Password">
+                </div>
+                <button type="submit" class="btn btn-primary text-white w-100 mt-4 fw-semibold shadow-sm"
+                    id="btnLogin">Login</button>
+
+
+                <div class="text-end mt-3">
+                    <p class="text-secondary"> If you haven’t registered yet? <a href="signup.html"
+                            class="text-secondary fw-bold">Register Now</a>
+                    </p>
+                </div>
+        </div>
+    </main>
+    <!-- IMPORTACIÓN DE ARCHIVOS JAVASCRIPT -->
+    <!-- Llamada al framework y librería de mensajes -->
+    <script type="text/javascript" src="../../resources/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
+    <!-- Llamada al controlador general de la aplicación -->
+    <script type="text/javascript" src="../../controllers/utils/components.js"></script>
+    <!-- Llamada al controlador del sitio público -->
+    <script type="text/javascript" src="../../controllers/utils/public.js"></script>
+    <!-- Llamada al controlador de la página web -->
+    <script type="text/javascript" src="../../controllers/public/login.js"></script>
+
+</html>

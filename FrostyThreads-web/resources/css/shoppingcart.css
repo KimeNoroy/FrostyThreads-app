@@ -1,0 +1,40 @@
+.producto {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px; /* Mayor espacio entre productos */
+}
+
+.detalle {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    margin: 0 20px; /* Mayor espacio entre la imagen y el detalle */
+}
+
+.acciones {
+    display: flex;
+    align-items: center;
+    margin-top: 10px; /* Mayor espacio entre el nombre y los botones */
+}
+
+.acciones button {
+    margin: 0 5px;
+}
+
+
+.span-precio {
+    margin-left: 850px; /* Mueve el precio hacia la esquina opuesta */  
+    margin-right: 10px; /* Agrega un margen derecho adicional para mover más el precio a la derecha */
+}
+
+
+
+.btn-basura {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #ccc;
+    margin-left: auto; /* Mueve el botón de basura hacia la esquina opuesta */
+}
