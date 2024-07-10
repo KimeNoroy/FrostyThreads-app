@@ -35,7 +35,7 @@ export default function Input({ placeHolder, setValor, contra, setTextChange }) 
         style={styles.input}
         placeholder={placeHolder}
         value={setValor}
-        placeholderTextColor={'#828181'}
+        placeholderTextColor={'#010101'}
         secureTextEntry={contra}
         onChangeText={setTextChange}
         onFocus={handleFocus}

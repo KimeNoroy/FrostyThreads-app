@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import fetchData from '../utils/fectdata';
 import Input from "../components/Inputs/Input";
+import InputEmail from "../components/Inputs/InputsEmail";
 import Buttons from "../components/Buttons/Button";
 
 
 export default function Sesion({ navigation }) {
   const [isContra, setIsContra] = useState(true);
-  const [usuario, setUsuario] = useState("");
-  const [contrasenia, setContrasenia] = useState("");
+  const [email, setEmail] = useState("");
+  const [contrasenia, setClave] = useState("");
 
   const validarSesion = async () => {
     try {
@@ -17,8 +18,8 @@ export default function Sesion({ navigation }) {
         // cerrarSesion();
         // console.log("Se eliminó la sesión");
 
-        setContrasenia("");
-        setUsuario("");
+        setClave("");
+        setEmail("");
         // Navega a la siguiente pantalla o ruta en la aplicación
         navigation.replace("Navigator");
       } else {
@@ -50,8 +51,8 @@ export default function Sesion({ navigation }) {
     try {
       // Crea un formulario FormData con los datos de usuario y contraseña
       const form = new FormData();
-      form.append("usuario_usuario", usuario);
-      form.append("usuario_contraseña", contrasenia);
+      form.append("emailCliente", usuario);
+      form.append("claveCliente", contrasenia);
 
       // Realiza una solicitud para iniciar sesión usando fetchData
       const DATA = await fetchData("cliente", "logIn", form);
@@ -59,8 +60,8 @@ export default function Sesion({ navigation }) {
       // Verifica la respuesta del servidor
       if (DATA.status) {
         // Limpia los campos de usuario y contraseña
-        setContrasenia("");
-        setUsuario("");
+        setClave("");
+        setEmail("");
         // Navega a la siguiente pantalla o ruta en la aplicación
         navigation.replace("Navigator");
       } else {
@@ -90,27 +91,27 @@ export default function Sesion({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>LOGIN</Text>
-      <Input
-            placeHolder="Usuario"
-            setValor={usuario}
-            setTextChange={setUsuario}
+      <InputEmail
+            placeHolder="Email"
+            setValor={email}
+            setTextChange={setEmail}
           />
        <Input
             placeHolder="Contraseña"
             setValor={contrasenia}
-            setTextChange={setContrasenia}
+            setTextChange={setClave}
             contra={isContra}
           />
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
       <Buttons textoBoton="Iniciar Sesión" accionBoton={handlerLogin} />
-      <Text style={styles.forgotPassword}>Forgot your password?</Text>
+  
       <Text style={styles.register}>
         if you havn't Registered yet ?{' '}
-        <Text style={styles.registerLink}>
-          Register Now
-        </Text>
+       <TouchableOpacity style={styles.textPositioner} onPress={navigateRegistrar}>
+        <Text style={styles.registerLink}> Register Now  </Text>
+          </TouchableOpacity>
       </Text>
     </View>
   );

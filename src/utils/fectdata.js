@@ -10,7 +10,7 @@ const fetchData = async (filename, action, form = null) => {
         OPTIONS.method = 'GET';
     }
     try {
-        const PATH = new URL(`${constantes.IP}/FrostyThreads/FrostyThreads-web/api/services/public/${filename}.php`);
+        const PATH = new URL(`${constantes.IP}/services/public/${filename}.php`);
         PATH.searchParams.append('action', action);
 
         const RESPONSE = await fetch(PATH.href, OPTIONS);

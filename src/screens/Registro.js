@@ -1,15 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  StyleSheet,
   View,
   Text,
-  TextInput,
   TouchableOpacity,
-  Alert,
+  ImageBackground,
+  Image,
+  StatusBar,
+  Keyboard,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Alert
 } from 'react-native';
 import Input from "../components/Inputs/Input";
 import Buttons from "../components/Buttons/Button";
-import fetchData from "../utils/fetchdata";
+//import fetchData from "../utils/fetchdata";
 
 export default function Sesion({ navigation }) {
   const [nombre, setNombre] = useState("");
@@ -22,15 +28,15 @@ export default function Sesion({ navigation }) {
 
   const handlerRegistro = async () => {
     try {
-        const form = new FormData();
-        form.append("usuario_nombre", nombre);
-        form.append("usuario_apellido", apellido);
-        form.append("usuario_contraseña", contrasenia);
-        form.append("usuario_correo", correo);
-        form.append("usuario_estado", 1);
-        form.append("confirmar_contraseña", confirmarContrasenia);
+      const form = new FormData();
+      form.append("nombreCliente", nombre);
+      form.append("apellidoCliente", apellido);
+      form.append("claveCliente", contrasenia);
+      form.append("emailCliente", correo);
+      form.append("estadoCliente", 1);
+      form.append("confirmar_contraseña", confirmarContrasenia);
 
-      const DATA = await fetchData("cliente", "signUpMovil", form);
+      const DATA = await fetchData("cliente", "signUp", form);
       if (DATA.status) {
         // Navega a la siguiente pantalla o ruta en la aplicación
         await handlerLogin();
@@ -49,21 +55,21 @@ export default function Sesion({ navigation }) {
     try {
       // Crea un formulario FormData con los datos de usuario y contraseña
       const form = new FormData();
-      form.append("usuario_correo", correo);
-      form.append("usuario_contraseña", contrasenia);
+      form.append("emailCliente", correo);
+      form.append("claveCliente", contrasenia);
 
       // Realiza una solicitud para iniciar sesión usando fetchData
       const DATA = await fetchData("cliente", "logIn", form);
-        console.log(DATA)
+      console.log(DATA)
       // Verifica la respuesta del servidor
       if (DATA.status) {
         Alert.alert("Bienvenido!", "Cuenta registrada satisfactoriamente");
-        setContrasenia("");
+        setClave("");
         setUsuario("");
         setApellido("");
         setNombre("");
         setCorreo("");
-        setConfirmarContrasenia("");  
+        setConfirmarContrasenia("");
         navigation.replace("Navigator");
       } else {
         // Muestra una alerta en caso de error
@@ -104,45 +110,50 @@ export default function Sesion({ navigation }) {
 
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>SIGN-UP</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter Your Name"
-        value={name}
-        onChangeText={setName}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Enter Your Mobile Number"
-        value={mobileNumber}
-        onChangeText={setMobileNumber}
-        keyboardType="phone-pad"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Please Enter Your Email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Please Enter Your Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      <TouchableOpacity style={styles.button} onPress={handleSignUp}>
-        <Text style={styles.buttonText}>Sign-up</Text>
-      </TouchableOpacity>
-      <Text style={styles.loginText}>
-        if you already have an account?{' '}
-        <Text style={styles.loginLink} onPress={() => Alert.alert('Login')}>
-          Login Now
-        </Text>
-      </Text>
-    </View>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <View style={styles.container}>
+          <Text style={styles.title}>SIGN-UP</Text>
+          <Input
+            placeholder="Enter Your Name"
+            setValor={nombre}
+            setTextChange={setNombre}
+          />
+          <Input
+            placeholder="Enter Your last name"
+            setValor={apellido}
+            setTextChange={setApellido}
+          />
+          <Input
+            placeholder="Please Enter Your Email"
+            setValor={correo}
+            setTextChange={setEmail}
+            keyboardType="email-address"
+          />
+          <Input
+            placeholder="Please Enter Your Password"
+            setValor={contrasenia}
+            setTextChange={setClave}
+            contra={true}
+          />
+          <Input
+            placeHolder="Confirm Password"
+            setValor={confirmarContrasenia}
+            setTextChange={setConfirmarContrasenia}
+            contra={true}
+          />
+          <Buttons textoBoton="check in!" accionBoton={handlerRegistro} />
+          <TouchableOpacity style={styles.textPositioner}>
+            <Text style={styles.loginText} onPress={navigateSesion} >
+              Do you already have an account? Log in
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -159,6 +170,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     color: '#5B7FDA',
   },
+  textPositioner: {
+    marginTop: 25,
+  },
   input: {
     height: 40,
     borderColor: 'gray',
@@ -174,7 +188,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   buttonText: {
-    color: '#fff',
+    color: '#010101',
     textAlign: 'center',
     fontSize: 16,
   },
