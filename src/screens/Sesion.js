@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import fetchData from '../utils/fectdata';
+
+import fetchData from '../utils/fetchdata';
 import Input from "../components/Inputs/Input";
 import InputEmail from "../components/Inputs/InputsEmail";
 import Buttons from "../components/Buttons/Button";
@@ -51,7 +52,7 @@ export default function Sesion({ navigation }) {
     try {
       // Crea un formulario FormData con los datos de usuario y contraseña
       const form = new FormData();
-      form.append("emailCliente", usuario);
+      form.append("emailCliente", email);
       form.append("claveCliente", contrasenia);
 
       // Realiza una solicitud para iniciar sesión usando fetchData
@@ -108,7 +109,7 @@ export default function Sesion({ navigation }) {
       <Buttons textoBoton="Iniciar Sesión" accionBoton={handlerLogin} />
   
       <Text style={styles.register}>
-        if you havn't Registered yet ?{' '}
+        if you havn't Registered yet ?
        <TouchableOpacity style={styles.textPositioner} onPress={navigateRegistrar}>
         <Text style={styles.registerLink}> Register Now  </Text>
           </TouchableOpacity>

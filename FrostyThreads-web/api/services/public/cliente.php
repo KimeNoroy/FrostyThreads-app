@@ -116,6 +116,26 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'There was a problem while creating the account';
                 }
                 break;
+            case 'signUpMovil':
+                $_POST = Validator::validateForm($_POST);
+
+                if (
+                    !$cliente->setNombre($_POST['nombreCliente']) or
+                    !$cliente->setApellido($_POST['apellidoCliente']) or
+                    !$cliente->setEmail($_POST['emailCliente']) or
+                    !$cliente->setClave($_POST['claveCliente']) or
+                    !$cliente->setEstadoMovil($_POST['estadoCliente'])
+                ) {
+                    $result['error'] = $cliente->getDataError();
+                } elseif ($_POST['claveCliente'] != $_POST['confirmarClave']) {
+                    $result['error'] = 'Password fields are not the same';
+                } elseif ($cliente->createRow()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Sign up success';
+                } else {
+                    $result['error'] = 'There was a problem while creating the account';
+                }
+                break;
             case 'logIn':
                 $_POST = Validator::validateForm($_POST);
                 if (!$cliente->checkUser($_POST['emailCliente'], $_POST['claveCliente'])) {

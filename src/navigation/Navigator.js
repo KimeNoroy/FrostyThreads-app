@@ -17,7 +17,7 @@ const TabNavigator = () => {
       screenOptions={({ route }) => ({
         headerShown: false, // Oculta el header
         tabBarActiveTintColor: '#000', // Color de los íconos activos
-        tabBarInactiveTintColor: '#000', // Color de los íconos inactivos
+        tabBarInactiveTintColor: '#004CFF', // Color de los íconos inactivos
         tabBarStyle: { backgroundColor: '#FFF', height: 60, borderTopWidth: 0 }, // Estilo de la barra de pestañas
         tabBarIcon: ({ focused, color, size }) => { // Función que define el ícono de la pestaña
           let iconName;

@@ -90,6 +90,26 @@ class ClienteData extends ClienteHandler
         
     }
 
+    public function setEstadoMovil($value)
+    {
+        // Validar el valor booleano usando validateBoolean
+        if (Validator::validateBoolean($value)) {
+            // Convertir cadenas 'true' y 'false' a booleanos
+            if (is_string($value)) {
+                $value = ($value === 'true' || $value === '1');
+            } elseif (is_numeric($value)) {
+                $value = (int) $value === 1;
+            }
+
+            // Asignar el valor validado a $this->status
+            $this->estado = (bool) $value;
+            return true;
+        } else {
+            $this->data_error = 'El valor de estado debe ser booleano (true/false o 1/0)';
+            return false;
+        }
+    }
+
     
     // Método para obtener el error de los datos.
     public function getDataError()

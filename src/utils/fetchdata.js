@@ -1,5 +1,5 @@
 // fetchData.js
-import * as constantes from '../utils/constantes';
+import * as constantes from './constantes';
 
 const fetchData = async (filename, action, form = null) => {
     const OPTIONS = {};

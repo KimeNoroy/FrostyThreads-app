@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import Input from "../components/Inputs/Input";
 import Buttons from "../components/Buttons/Button";
-//import fetchData from "../utils/fetchdata";
+import fetchData from "../utils/fetchdata";
 
 export default function Sesion({ navigation }) {
   const [nombre, setNombre] = useState("");
@@ -34,9 +34,9 @@ export default function Sesion({ navigation }) {
       form.append("claveCliente", contrasenia);
       form.append("emailCliente", correo);
       form.append("estadoCliente", 1);
-      form.append("confirmar_contraseña", confirmarContrasenia);
+      form.append("confirmarClave", confirmarContrasenia);
 
-      const DATA = await fetchData("cliente", "signUp", form);
+      const DATA = await fetchData("cliente", "signUpMovil", form);
       if (DATA.status) {
         // Navega a la siguiente pantalla o ruta en la aplicación
         await handlerLogin();
@@ -65,7 +65,6 @@ export default function Sesion({ navigation }) {
       if (DATA.status) {
         Alert.alert("Bienvenido!", "Cuenta registrada satisfactoriamente");
         setClave("");
-        setUsuario("");
         setApellido("");
         setNombre("");
         setCorreo("");
@@ -118,23 +117,23 @@ export default function Sesion({ navigation }) {
         <View style={styles.container}>
           <Text style={styles.title}>SIGN-UP</Text>
           <Input
-            placeholder="Enter Your Name"
+            placeHolder="Enter Your Name"
             setValor={nombre}
             setTextChange={setNombre}
           />
           <Input
-            placeholder="Enter Your last name"
+            placeHolder="Enter Your last name"
             setValor={apellido}
             setTextChange={setApellido}
           />
           <Input
-            placeholder="Please Enter Your Email"
+            placeHolder="Please Enter Your Email"
             setValor={correo}
             setTextChange={setEmail}
             keyboardType="email-address"
           />
           <Input
-            placeholder="Please Enter Your Password"
+            placeHolder="Please Enter Your Password"
             setValor={contrasenia}
             setTextChange={setClave}
             contra={true}
