@@ -167,4 +167,26 @@ class ClienteHandler
             return false;
         }
     }
+
+    public function changePasswordFromEmail()
+    {
+        $sql = 'UPDATE tb_clientes SET clave_cliente = ? WHERE email_cliente = ?';
+        $params = array($this->clave, $_SESSION['usuario_correo_vcc']['correo']);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function verifyExistingEmail()
+    {
+        $sql = 'SELECT COUNT(*) as count
+                FROM tb_clientes
+                WHERE email_cliente = ?';
+        $params = array($this->email);
+        $result = Database::getRow($sql, $params);
+    
+        if ($result['count'] > 0) {
+            return true; // Hay resultados
+        } else {
+            return false; // No hay resultados
+        }
+    }
 }

@@ -1,1 +1,1 @@
-export const IP = 'http://192.168.1.9/FrostyThreads-movil/FrostyThreads-web/api'
+export const IP = 'http://192.168.50.34/FrostyThreads-app/FrostyThreads-web/api'

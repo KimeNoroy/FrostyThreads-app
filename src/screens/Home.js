@@ -1,10 +1,91 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, FlatList, Text, Dimensions, Touchable, TouchableOpacity } from 'react-native';
+import Header from '../components/Headers/Header';
+import CategorieCard from '../components/Cards/CategorieCard';
+import fetchData from '../utils/fetchdata';
+import { IP } from '../utils/constantes';
 
-export default function Home() {
+const { width } = Dimensions.get('window');
+const CARD_WIDTH = (width - 40) / 2;
+
+export default function Home({navigation}) {
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const data = await fetchData('categoria', 'readAll');
+        console.log(data);
+        if (data.error) {
+          setError(data.message);
+        } else {
+          setCategories(data.dataset); // Asegúrate de que el objeto de respuesta tenga una propiedad 'categories'
+        }
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <Header title={"Shop"} />
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.container}>
+        <Header title={"Shop"}/>
+        <Text>{error}</Text>
+      </View>
+    );
+  }
+
+  const renderItem = ({ item }) => (
+    <TouchableOpacity onPress={() => navigation.navigate('Productos', { categoryId: item.id_categoria, categoryName: item.categoria })}>
+      <CategorieCard
+      imageSource={{ uri: IP+"/images/categorias/"+item.categoria_img }} 
+      title={item.categoria} 
+      cardStyle={{ width: CARD_WIDTH }}
+    />
+    </TouchableOpacity>
+  );
   return (
-    <View>
-      <Text>Home</Text>
+    <View style={styles.container}>
+      <Header title={"Shop"} />
+      <FlatList
+        data={categories}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id_categoria.toString()} 
+        numColumns={2}
+        columnWrapperStyle={styles.row}
+        contentContainerStyle={styles.list}
+      />
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f9f9f9',
+  },
+  list: {
+    padding: 10,
+  },
+  row: {
+    flex: 1,
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+});

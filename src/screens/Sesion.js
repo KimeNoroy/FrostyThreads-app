@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import fetchData from '../utils/fetchdata';
 import Input from "../components/Inputs/Input";
-import InputEmail from "../components/Inputs/InputsEmail";
 import Buttons from "../components/Buttons/Button";
-
 
 export default function Sesion({ navigation }) {
   const [isContra, setIsContra] = useState(true);
@@ -16,16 +13,11 @@ export default function Sesion({ navigation }) {
     try {
       const DATA = await fetchData("cliente", "getUser");
       if (DATA.session) {
-        // cerrarSesion();
-        // console.log("Se eliminó la sesión");
-
         setClave("");
         setEmail("");
-        // Navega a la siguiente pantalla o ruta en la aplicación
         navigation.replace("Navigator");
       } else {
         console.log("No hay sesión activa");
-        return;
       }
     } catch (error) {
       console.error(error);
@@ -33,56 +25,33 @@ export default function Sesion({ navigation }) {
     }
   };
 
-  const cerrarSesion = async () => {
-    try {
-      const DATA = await fetchData("cliente", "logOut");
-
-      if (DATA.status) {
-        console.log("Sesión Finalizada");
-      } else {
-        console.log("No se pudo eliminar la sesión");
-      }
-    } catch (error) {
-      console.error(error, "Error desde Catch");
-      Alert.alert("Error", "Ocurrió un error al iniciar sesión con bryancito");
-    }
-  };
-
   const handlerLogin = async () => {
     try {
-      // Crea un formulario FormData con los datos de usuario y contraseña
       const form = new FormData();
+      console.log(email);
       form.append("emailCliente", email);
       form.append("claveCliente", contrasenia);
 
-      // Realiza una solicitud para iniciar sesión usando fetchData
       const DATA = await fetchData("cliente", "logIn", form);
 
-      // Verifica la respuesta del servidor
+      console.log(DATA);
+
       if (DATA.status) {
-        // Limpia los campos de usuario y contraseña
         setClave("");
         setEmail("");
-        // Navega a la siguiente pantalla o ruta en la aplicación
         navigation.replace("Navigator");
       } else {
-        // Muestra una alerta en caso de error
         console.log(DATA);
         Alert.alert("Error sesión", DATA.error);
       }
     } catch (error) {
-      // Maneja errores que puedan ocurrir durante la solicitud
       console.error(error, "Error desde Catch");
       Alert.alert("Error", "Ocurrió un error al iniciar sesión");
     }
   };
 
   const navigateRegistrar = async () => {
-    navigation.replace("Registro")
-  };
-
-  const decirhola = async () => {
-    console.log("hola");
+    navigation.navigate("Registro")
   };
 
   useEffect(() => {
@@ -91,64 +60,109 @@ export default function Sesion({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <View style={styles.backgroundShapeTopLeft} />
+      <View style={styles.backgroundShapeBottomRight} />
       <Text style={styles.title}>LOGIN</Text>
-      <InputEmail
-            placeHolder="Email"
-            setValor={email}
-            setTextChange={setEmail}
-          />
-       <Input
-            placeHolder="Contraseña"
-            setValor={contrasenia}
-            setTextChange={setClave}
-            contra={isContra}
-          />
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
-      <Buttons textoBoton="Iniciar Sesión" accionBoton={handlerLogin} />
-  
-      <Text style={styles.register}>
-        if you havn't Registered yet ?
-       <TouchableOpacity style={styles.textPositioner} onPress={navigateRegistrar}>
-        <Text style={styles.registerLink}> Register Now  </Text>
-          </TouchableOpacity>
-      </Text>
+      <View style={styles.loginContainer}>
+        <Text style={styles.label}>Email address</Text>
+        <Input 
+          style={styles.input} 
+          placeholderTextColor="#aaa"
+          value={email}
+          setTextChange={setEmail}
+        />
+        <Text style={styles.label}>Password</Text>
+        <Input 
+          style={styles.input} 
+          value={contrasenia}
+          setTextChange={setClave}
+          contra = {true}
+        />
+        <TouchableOpacity style={styles.button} >
+          <Buttons textoBoton="Iniciar Sesión" accionBoton={handlerLogin}/>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {navigation.navigate('PasswordRecovery')}}>
+          <Text style={styles.forgotPassword}>Forgot your password?</Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Text style={styles.registerText}>
+            If you haven't registered yet, <Text style={styles.registerLink} onPress={navigateRegistrar}>Register Now</Text>
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    backgroundColor: '#f8f9fa',
     alignItems: 'center',
-    backgroundColor: '#f9f9f9',
-    padding: 20,
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+  },
+  backgroundShapeTopLeft: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: 200,
+    height: 200,
+    backgroundColor: '#0066ff',
+    borderBottomRightRadius: 100,
+  },
+  backgroundShapeBottomRight: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    width: 100,
+    height: 100,
+    backgroundColor: '#0066ff',
+    borderTopLeftRadius: 50,
   },
   title: {
     fontSize: 32,
-    fontWeight: 'bold',
-    color: '#5a67d8',
+    color: '#4a4a4a',
     marginBottom: 20,
   },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
+  loginContainer: {
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 10,
+    width: '100%',
+    alignItems: 'center',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  label: {
+    alignSelf: 'flex-start',
+    color: '#4a4a4a',
+  },
+  input: {
+    width: '100%',
+    marginBottom: 10,
+  },
+  button: {
+    width: '100%',
+    marginVertical: 10,
   },
   forgotPassword: {
-    color: '#5a67d8',
-    marginTop: 10,
+    color: '#555',
+    fontSize: 12,
+    marginVertical: 10,
   },
-  register: {
-    color: '#888',
-    marginTop: 20,
+  registerText: {
+    color: '#555',
+    fontSize: 12,
+    marginVertical: 20,
   },
   registerLink: {
-    color: '#5a67d8',
-    fontWeight: 'bold',
+    color: '#0066ff',
   },
 });
-
-

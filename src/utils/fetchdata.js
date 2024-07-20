@@ -1,4 +1,3 @@
-// fetchData.js
 import * as constantes from './constantes';
 
 const fetchData = async (filename, action, form = null) => {

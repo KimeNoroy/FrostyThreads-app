@@ -14,22 +14,6 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['idCliente'])) {
         // Se compara la acción a realizar cuando un cliente ha iniciado sesión.
         switch ($_GET['action']) {
-            case 'createRow':
-                $_POST = Validator::validateForm($_POST);
-                if (
-                    !$comentario->setDetalle($_POST['detalleComentario']) or
-                    !$comentario->setCalificacion($_POST['calificacionComentario']) or
-                    !$comentario->setEstado($_POST['estadoComentario']) or
-                    !$comentario->setIdDetalleOrden($_POST['idDetalleOrdenComentario'])
-                ) {
-                    $result['error'] = $comentario->getDataError();
-                } elseif ($comentario->createRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'comentario creado correctamente';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al crear el comentario';
-                }
-                break;
             case 'readAllByProduct':
                 if(!$comentario->setIdProducto(['idPrenda'])){
                     $result['error'] = $comentario->getDataError();

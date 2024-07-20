@@ -1,8 +1,7 @@
-
 import React, { useState, useRef } from 'react';
 import { StyleSheet, TextInput, Animated } from 'react-native';
 
-export default function Input({ placeHolder, setValor, contra, setTextChange }) {
+export default function Input({ placeholder, value, setTextChange, contra = false }) {
   const [isFocused, setIsFocused] = useState(false);
   const borderColor = useRef(new Animated.Value(0)).current;
 
@@ -29,15 +28,19 @@ export default function Input({ placeHolder, setValor, contra, setTextChange }) 
     outputRange: ['#828181', '#000000']
   });
 
+  const handleChangeText = (text) => {
+    setTextChange(text);
+  };
+
   return (
     <Animated.View style={[styles.inputContainer, { borderColor: animatedBorderColor }]}>
       <TextInput
         style={styles.input}
-        placeholder={placeHolder}
-        value={setValor}
+        placeholder={placeholder}
+        value={value}
         placeholderTextColor={'#010101'}
         secureTextEntry={contra}
-        onChangeText={setTextChange}
+        onChangeText={handleChangeText}
         onFocus={handleFocus}
         onBlur={handleBlur}
       />
