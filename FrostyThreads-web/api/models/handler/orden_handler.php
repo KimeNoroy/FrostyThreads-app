@@ -91,7 +91,7 @@ class OrdenHandler
 
     public function readAllByCustomer()
     {
-        $sql = 'SELECT a.id_orden, b.id_cliente, a.direccion_orden, a.estado_orden, a.fecha_orden FROM tb_ordenes a, 
+        $sql = 'SELECT a.id_orden, b.id_cliente, a.direccion_orden, a.estado_orden, a.fecha_orden, getTotal(a.id_orden) as total FROM tb_ordenes a, 
                 tb_clientes b WHERE a.id_cliente = b.id_cliente AND 
                 b.id_cliente = ?
                 ORDER BY a.id_orden';

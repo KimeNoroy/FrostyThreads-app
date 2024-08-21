@@ -14,6 +14,7 @@ import History from './src/screens/History';
 import { useFonts, Raleway_400Regular, Raleway_700Bold } from '@expo-google-fonts/raleway';
 import * as SplashScreen from 'expo-splash-screen';
 import Preview from './src/screens/Preview';
+import DetalleOrden from './src/screens/DetalleOrden';
 
 const Stack = createNativeStackNavigator();
 
@@ -48,6 +49,7 @@ export default function App() {
         <Stack.Screen name="PasswordRecovery" component={RecoverPassword} />
         <Stack.Screen name="confirmCode" component={confirmCode} />
         <Stack.Screen name="History" component={History} />
+        <Stack.Screen name="DetalleOrden" component={DetalleOrden} />
       </Stack.Navigator>
     </NavigationContainer>
   );

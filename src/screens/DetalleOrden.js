@@ -5,13 +5,11 @@ import fetchData from '../utils/fetchdata';
 import { IP } from '../utils/constantes';
 import Header from '../components/Headers/Header';
 
-export default function DetalleOrden({navigation,idOrden}) {
+export default function DetalleOrden({navigation,route}) {
+  const {idOrden} = route.params;
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [addresses, setAddresses] = useState([]);
-  const [selectedAddress, setSelectedAddress] = useState(null);
   const [total, setTotal] = useState(0);
   const title = "Order: "+idOrden;
 
@@ -71,12 +69,6 @@ export default function DetalleOrden({navigation,idOrden}) {
         <Text style={styles.productName}>{item.nombre_prenda}</Text>
         <Text style={styles.quantity}>Quantity: {item.cantidad_prenda}</Text>
         <Text style={styles.subtotal}>Subtotal: ${item.cantidad_prenda * item.precio_prenda}</Text>
-        <TouchableOpacity
-          style={styles.deleteButton}
-          onPress={() => deleteProduct(item.id_detalle_orden)}
-        >
-          <Text style={styles.deleteButtonLabel}>Delete</Text>
-        </TouchableOpacity>
       </View>
     </View>
   );

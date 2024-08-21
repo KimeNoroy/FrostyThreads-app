@@ -56,7 +56,7 @@ if (isset($_GET['action'])) {
             case 'getTotalByOrder':
                 if (!$orden->setId($_POST['idOrden'])) {
                     $result['error'] = 'There is no cloths in the shopping cart';
-                } elseif ($result['dataset'] = $orden->getTotal()) {
+                } elseif ($result['dataset'] = $orden->getTotalByOrder()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {

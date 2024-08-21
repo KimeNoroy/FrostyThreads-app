@@ -1,23 +1,21 @@
-import { View, Text, StyleSheet, FlatList } from 'react-native'
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native'
 import { useState, useEffect } from 'react';
 import React from 'react'
 import fetchData from '../utils/fetchdata';
 import Header from '../components/Headers/Header';
 
-export default function History(navigation) {
+export default function History({navigation}) {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   const fetchOrders = async () => {
     try {
-      const data = await fetchData('detalle_orden', 'readAllByCostumer');
+      const data = await fetchData('orden', 'readAllByCostumer');
       if (data.status) {
         setOrders(data.dataset);
       }
     } catch (error) {
       setError(error.message);
-      setOrders(null);
     } finally {
       setLoading(false);
     }
@@ -36,31 +34,20 @@ export default function History(navigation) {
     );
   }
 
-  if (error) {
-    return (
-      <View style={styles.container}>
-        <Header title={"Orders"} />
-        <Text>{error}</Text>
-      </View>
-    );
-  }
+  const handlePress = (id) => {
+    navigation.navigate('DetalleOrden', { idOrden: id }); // Navega a DetalleOrden pasando el id
+  };
 
-  const getTotal = async(id) => {
-    const formData = new FormData();
-    formData.append('idOrden',id);
-    const result = await fetchData('orden','getTotalByOrder',formData);
-    if(result.status){
-      return result.dataset;
-    }
-  }
-
-  const renderOrder = async ({ item }) => (
+  const renderOrder = ({ item }) => (
+    <TouchableOpacity onPress={() => handlePress(item.id_orden)}>
     <View style={styles.card}>
       <View style={styles.cardContent}>
         <Text style={styles.quantity}>ID: {item.id_orden}</Text>
-        <Text style={styles.subtotal}>Total: ${getTotal(item.id_orden)}</Text>
+        <Text style={styles.subtotal}>Total: ${item.total}</Text>
+        <Text style={styles.subtotal}>Address: {item.direccion_orden}</Text>
       </View>
     </View>
+    </TouchableOpacity>
   );
 
   return (
@@ -69,9 +56,10 @@ export default function History(navigation) {
       <FlatList
         data={orders}
         renderItem={renderOrder}
-        keyExtractor={(item) => item.id_detalle_orden.toString()}
+        keyExtractor={(item) => item.id_orden.toString()}
         onRefresh={fetchOrders} // Para refrescar cuando se hace scroll hacia arriba
         refreshing={loading}
+        
       />
     </View>
   );
