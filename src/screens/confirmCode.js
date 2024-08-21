@@ -4,8 +4,22 @@ import Input from "../components/Inputs/Input";
 import Buttons from "../components/Buttons/Button";
 import fetchData from "../utils/fetchdata";
 
-export default function confirmCode({ navigation, token }) {
+export default function ConfirmCode({ navigation, token }) {
   const [code, setCode] = useState("");
+
+  const sendCode = async () =>{
+
+    const formData = new FormData();
+
+    formData.append('token',token);
+    formData.append('secretCode',code);
+
+    const result = await fetchData('cliente','emailPasswordValidator',formData);
+    if(result.status){
+      
+    }
+
+  }
 
   return (
     <View style={styles.container}>
@@ -22,7 +36,7 @@ export default function confirmCode({ navigation, token }) {
           textoBoton="Send Code"
           accionBoton={sendCode}
         />
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={() => navigation.navigation('Sesion')}>
           <Text style={styles.backLink}>Back to Login</Text>
         </TouchableOpacity>
       </View>
