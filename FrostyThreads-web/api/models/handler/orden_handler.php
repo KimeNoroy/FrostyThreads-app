@@ -105,6 +105,12 @@ class OrdenHandler
         return Database::getRows($sql, $params);
     }
 
+    public function getTotalByOrder(){
+        $sql = 'SELECT SUM(b.precio_prenda*b.cantidad_prenda) as total FROM tb_ordenes a, tb_detalle_ordenes b WHERE a.id_orden = b.id_orden AND a.id_orden = ?';
+        $params = array($this->id);
+        return Database::getRows($sql, $params);
+    }
+
     public function readOne()
     {
         $sql = 'SELECT id_orden, id_cliente, direccion_orden, estado_orden, fecha_orden FROM tb_ordenes

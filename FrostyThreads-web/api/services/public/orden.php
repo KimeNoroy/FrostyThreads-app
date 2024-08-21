@@ -53,6 +53,16 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen ordenes registradas';
                 }
                 break;
+            case 'getTotalByOrder':
+                if (!$orden->setId($_POST['idOrden'])) {
+                    $result['error'] = 'There is no cloths in the shopping cart';
+                } elseif ($result['dataset'] = $orden->getTotal()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
+                } else {
+                    $result['error'] = 'No existen ordenes registradas';
+                }
+                break;
             case 'readActiveOrders':
                 if (!$orden->getOrder()) {
                     $result['error'] = 'There is no cloths in the shopping cart';

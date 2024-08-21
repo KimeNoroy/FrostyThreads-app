@@ -1,19 +1,28 @@
-import { View, Text, StyleSheet, FlatList } from 'react-native'
-import { useState, useEffect } from 'react';
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, Text, TouchableOpacity, FlatList, Modal, Alert, Image } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import fetchData from '../utils/fetchdata';
+import { IP } from '../utils/constantes';
 import Header from '../components/Headers/Header';
 
-export default function History(navigation) {
+export default function DetalleOrden({navigation,idOrden}) {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [addresses, setAddresses] = useState([]);
+  const [selectedAddress, setSelectedAddress] = useState(null);
+  const [total, setTotal] = useState(0);
+  const title = "Order: "+idOrden;
 
-  const fetchOrders = async () => {
+  const fetchDetail = async () => {
     try {
-      const data = await fetchData('detalle_orden', 'readAllByCostumer');
+      const formData = new FormData();
+      formData.append('idOrden',idOrden);
+      const data = await fetchData('detalle_orden', 'readAllByOrder',formData);
       if (data.status) {
         setOrders(data.dataset);
+        calculateTotal(data.dataset);
       }
     } catch (error) {
       setError(error.message);
@@ -24,13 +33,20 @@ export default function History(navigation) {
   };
 
   useEffect(() => {
-    fetchOrders();
+    fetchDetail();
   }, []);
 
+  const calculateTotal = (orders) => {
+    let totalAmount = 0;
+    orders.forEach(order => {
+      totalAmount += parseFloat(order.precio_prenda * order.cantidad_prenda);
+    });
+    setTotal(totalAmount);
+  };
   if (loading) {
     return (
       <View style={styles.container}>
-        <Header title={"Orders"} />
+        <Header title={title} />
         <Text>Loading...</Text>
       </View>
     );
@@ -39,41 +55,51 @@ export default function History(navigation) {
   if (error) {
     return (
       <View style={styles.container}>
-        <Header title={"Orders"} />
+        <Header title={title} />
         <Text>{error}</Text>
       </View>
     );
   }
 
-  const getTotal = async(id) => {
-    const formData = new FormData();
-    formData.append('idOrden',id);
-    const result = await fetchData('orden','getTotalByOrder',formData);
-    if(result.status){
-      return result.dataset;
-    }
-  }
-
-  const renderOrder = async ({ item }) => (
+  const renderOrder = ({ item }) => (
     <View style={styles.card}>
+      <Image
+        source={{ uri: IP + "/images/productos/" + item.prenda_img }}
+        style={styles.image}
+      />
       <View style={styles.cardContent}>
-        <Text style={styles.quantity}>ID: {item.id_orden}</Text>
-        <Text style={styles.subtotal}>Total: ${getTotal(item.id_orden)}</Text>
+        <Text style={styles.productName}>{item.nombre_prenda}</Text>
+        <Text style={styles.quantity}>Quantity: {item.cantidad_prenda}</Text>
+        <Text style={styles.subtotal}>Subtotal: ${item.cantidad_prenda * item.precio_prenda}</Text>
+        <TouchableOpacity
+          style={styles.deleteButton}
+          onPress={() => deleteProduct(item.id_detalle_orden)}
+        >
+          <Text style={styles.deleteButtonLabel}>Delete</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
 
   return (
     <View style={styles.container}>
-      <Header title={"Orders"} />
+      <Header title={title} />
       <FlatList
         data={orders}
         renderItem={renderOrder}
         keyExtractor={(item) => item.id_detalle_orden.toString()}
-        onRefresh={fetchOrders} // Para refrescar cuando se hace scroll hacia arriba
+        onRefresh={fetchDetail} // Para refrescar cuando se hace scroll hacia arriba
         refreshing={loading}
       />
-    </View>
+      <View style={styles.totalContainer}>
+        <Text style={styles.totalText}>{total === -1 ? "No products in the order" : "Total: $" + total}</Text>
+      </View>
+      {total !== -1 && (
+        <TouchableOpacity style={styles.finalizeButton} onPress={() => {navigation.goBack()}}>
+          <Text style={styles.finalizeButtonLabel}>Return</Text>
+        </TouchableOpacity>
+      )}
+      </View>
   );
 }
 

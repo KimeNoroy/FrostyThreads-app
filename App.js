@@ -9,6 +9,7 @@ import Productos from './src/screens/Productos';
 import Home from './src/screens/Home';
 import RecoverPassword from './src/screens/PasswordRecovery';
 import confirmCode from './src/screens/confirmCode';
+import History from './src/screens/History';
 
 import { useFonts, Raleway_400Regular, Raleway_700Bold } from '@expo-google-fonts/raleway';
 import * as SplashScreen from 'expo-splash-screen';
@@ -46,6 +47,7 @@ export default function App() {
         <Stack.Screen name="Preview" component={Preview} />
         <Stack.Screen name="PasswordRecovery" component={RecoverPassword} />
         <Stack.Screen name="confirmCode" component={confirmCode} />
+        <Stack.Screen name="History" component={History} />
       </Stack.Navigator>
     </NavigationContainer>
   );

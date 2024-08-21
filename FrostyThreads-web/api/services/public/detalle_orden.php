@@ -31,7 +31,9 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'readAllByOrder':
-                if ($result['dataset'] = $detalleOrden->readAllByOrder()) {
+                if (!$detalleOrden->setIdOrden($_POST['idOrden'])) {
+                    $result['error'] = $detalleOrden->getDataError();
+                } elseif ($result['dataset'] = $detalleOrden->readAllByOrder()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {
