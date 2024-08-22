@@ -11,6 +11,7 @@ export default function History({navigation}) {
   const fetchOrders = async () => {
     try {
       const data = await fetchData('orden', 'readAllByCostumer');
+      console.log(data);
       if (data.status) {
         setOrders(data.dataset);
       }

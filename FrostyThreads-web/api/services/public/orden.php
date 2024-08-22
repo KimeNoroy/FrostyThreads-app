@@ -80,7 +80,7 @@ if (isset($_GET['action'])) {
                 ) {
                     $result['error'] = $orden->getDataError();
                 }
-                else if ($result['dataset'] = $orden->readAllByCustomer($_SESSION['idCliente'])) {
+                else if ($result['dataset'] = $orden->readAllByCustomer()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {
