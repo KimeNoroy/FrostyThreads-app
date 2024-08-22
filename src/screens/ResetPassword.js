@@ -4,22 +4,75 @@ import Input from "../components/Inputs/Input";
 import Buttons from "../components/Buttons/Button";
 import fetchData from "../utils/fetchdata";
 
-export default function ResetPassword({ navigation}) {
+export default function ResetPassword({ navigation }) {
+  const [oldPassword, setOldPassword] = useState(""); // Estado para la contraseña anterior
+  const [newPassword, setNewPassword] = useState(""); // Estado para la nueva contraseña
+  const [confirmPassword, setConfirmPassword] = useState(""); // Estado para confirmar la nueva contraseña
+
+  const handleChangePassword = async () => {
+    if (newPassword !== confirmPassword) {
+      Alert.alert("Error", "Las contraseñas nuevas no coinciden. Por favor, inténtelo nuevamente.");
+      return;
+    }
+
+    try {
+      // Primero, verifica la contraseña antigua
+      const verifyFormData = new FormData();
+      verifyFormData.append('claveActual', oldPassword);
+      const verifyResult = await fetchData('cliente', 'verifyOldPassword', verifyFormData);
+
+      if (!verifyResult.status) {
+        Alert.alert("Error", "La contraseña anterior es incorrecta. Por favor, inténtelo nuevamente.");
+        return;
+      }
+
+      // Luego, cambia la contraseña
+      const changeFormData = new FormData();
+      changeFormData.append('claveNueva', newPassword);
+      const changeResult = await fetchData('cliente', 'changePassword', changeFormData);
+
+      if (changeResult.status) {
+        Alert.alert("Éxito", "Tu contraseña ha sido cambiada exitosamente.");
+        navigation.navigate("Sesion");
+      } else {
+        Alert.alert("Error", "Ocurrió un error al cambiar la contraseña. Por favor, inténtelo nuevamente.");
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Error", "Ocurrió un error al procesar la solicitud.");
+    }
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.backgroundShapeTopLeft} />
       <View style={styles.backgroundShapeBottomRight} />
-      <Text style={styles.title}>Enter the code</Text>
+      <Text style={styles.title}>Change your password</Text>
       <View style={styles.loginContainer}>
-        <Text style={styles.label}>Code</Text>
+        <Text style={styles.label}>Old Password</Text>
         <Input
-          setValor={code}
-          setTextChange={setCode}
+          value={oldPassword}
+          setTextChange={setOldPassword}
+          placeholder="Enter your old password"
+          secureTextEntry={true}
+        />
+        <Text style={styles.label}>New Password</Text>
+        <Input
+          value={newPassword}
+          setTextChange={setNewPassword}
+          placeholder="Enter new password"
+          secureTextEntry={true}
+        />
+        <Text style={styles.label}>Confirm New Password</Text>
+        <Input
+          value={confirmPassword}
+          setTextChange={setConfirmPassword}
+          placeholder="Confirm new password"
+          secureTextEntry={true}
         />
         <Buttons
-          textoBoton="Send Code"
-          accionBoton={sendCode}
+          textoBoton="Change Password"
+          accionBoton={handleChangePassword}
         />
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Text style={styles.backLink}>Back to Login</Text>
@@ -78,6 +131,7 @@ const styles = StyleSheet.create({
   label: {
     alignSelf: 'flex-start',
     color: '#4a4a4a',
+    marginBottom: 5,
   },
   backLink: {
     color: '#0066ff',

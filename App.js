@@ -8,6 +8,7 @@ import Navigator from './src/navigation/Navigator';
 import Productos from './src/screens/Productos';
 import Home from './src/screens/Home';
 import RecoverPassword from './src/screens/PasswordRecovery';
+import ResetPassword from './src/screens/ResetPassword';
 import confirmCode from './src/screens/confirmCode';
 import History from './src/screens/History';
 
@@ -47,6 +48,7 @@ export default function App() {
         <Stack.Screen name="Productos" component={Productos} />
         <Stack.Screen name="Preview" component={Preview} />
         <Stack.Screen name="PasswordRecovery" component={RecoverPassword} />
+        <Stack.Screen name="ResetPassword" component={ResetPassword} />
         <Stack.Screen name="confirmCode" component={confirmCode} />
         <Stack.Screen name="History" component={History} />
         <Stack.Screen name="DetalleOrden" component={DetalleOrden} />

@@ -4,21 +4,29 @@ import Input from "../components/Inputs/Input";
 import Buttons from "../components/Buttons/Button";
 import fetchData from "../utils/fetchdata";
 
-export default function ConfirmCode({ navigation, token }) {
+export default function ConfirmCode({ navigation, route }) {
+  const { token } = route.params; // Recibimos el token de la primera pantalla
   const [code, setCode] = useState("");
 
-  const sendCode = async () =>{
+  const sendCode = async () => {
+    try {
+      const formData = new FormData();
+      formData.append('token', token);
+      formData.append('secretCode', code);
 
-    const formData = new FormData();
-
-    formData.append('token',token);
-    formData.append('secretCode',code);
-
-    const result = await fetchData('cliente','emailPasswordValidator',formData);
-    if(result.status){
+      const result = await fetchData('cliente', 'emailPasswordValidator', formData);
       
+      if(result.status){
+        Alert.alert("Código verificado", "El código es correcto. Proceda a restablecer su contraseña.");
+        // Navegar a la pantalla de restablecimiento de contraseña
+        navigation.navigate("ResetPassword");
+      } else {
+        Alert.alert("Error", "El código ingresado es incorrecto. Por favor, inténtelo nuevamente.");
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Error", "Ocurrió un error al verificar el código.");
     }
-
   }
 
   return (
@@ -33,10 +41,10 @@ export default function ConfirmCode({ navigation, token }) {
           setTextChange={setCode}
         />
         <Buttons
-          textoBoton="Send Code"
+          textoBoton="Verify Code"
           accionBoton={sendCode}
         />
-        <TouchableOpacity onPress={() => navigation.navigation('Sesion')}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Text style={styles.backLink}>Back to Login</Text>
         </TouchableOpacity>
       </View>
