@@ -6,7 +6,6 @@ import fetchData from "../utils/fetchdata";
 
 export default function RecoverPassword({ navigation }) {
   const [email, setEmail] = useState("");
-  const [token, setToken] = useState("");
   
   const sendCode = async () => {
     try {
@@ -14,10 +13,8 @@ export default function RecoverPassword({ navigation }) {
       form.append("emailCliente", email);
 
       const DATA = await fetchData("cliente", "emailPasswordSender", form);
-      console.log(DATA);
       if (DATA.status) {
         Alert.alert("Código enviado", "Se ha enviado un código de recuperación al correo proporcionado.");
-        setToken(DATA.dataset); // Guardar el token
         navigation.navigate("confirmCode", { token: DATA.dataset }); // Pasar el token a la siguiente pantalla
       } else {
         Alert.alert("Error", DATA.error);

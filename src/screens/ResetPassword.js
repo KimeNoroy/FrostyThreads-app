@@ -1,44 +1,40 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import fetchData from "../utils/fetchdata";
 import Input from "../components/Inputs/Input";
 import Buttons from "../components/Buttons/Button";
-import fetchData from "../utils/fetchdata";
 
-export default function ResetPassword({ navigation }) {
-  const [oldPassword, setOldPassword] = useState(""); // Estado para la contraseña anterior
+export default function ResetPassword({ navigation, route }) {
+
+  
   const [newPassword, setNewPassword] = useState(""); // Estado para la nueva contraseña
   const [confirmPassword, setConfirmPassword] = useState(""); // Estado para confirmar la nueva contraseña
 
   const handleChangePassword = async () => {
+    const { token } = route.params;
+    
     if (newPassword !== confirmPassword) {
       Alert.alert("Error", "Las contraseñas nuevas no coinciden. Por favor, inténtelo nuevamente.");
       return;
     }
 
     try {
-      // Primero, verifica la contraseña antigua
-      const verifyFormData = new FormData();
-      verifyFormData.append('claveActual', oldPassword);
-      const verifyResult = await fetchData('cliente', 'verifyOldPassword', verifyFormData);
+      const formData = new FormData();
+      formData.append('token', token);
+      formData.append('nuevaClave', newPassword);
+      formData.append('confirmarClave', confirmPassword);
 
-      if (!verifyResult.status) {
-        Alert.alert("Error", "La contraseña anterior es incorrecta. Por favor, inténtelo nuevamente.");
-        return;
-      }
+      const result = await fetchData('cliente', 'changePasswordByEmail', formData);
+      console.log("Change Result:", result); // Depuración
 
-      // Luego, cambia la contraseña
-      const changeFormData = new FormData();
-      changeFormData.append('claveNueva', newPassword);
-      const changeResult = await fetchData('cliente', 'changePassword', changeFormData);
-
-      if (changeResult.status) {
+      if (result.error) {
+        Alert.alert("Error", result.message || "Ocurrió un error al cambiar la contraseña. Por favor, inténtelo nuevamente.");
+      } else {
         Alert.alert("Éxito", "Tu contraseña ha sido cambiada exitosamente.");
         navigation.navigate("Sesion");
-      } else {
-        Alert.alert("Error", "Ocurrió un error al cambiar la contraseña. Por favor, inténtelo nuevamente.");
       }
     } catch (error) {
-      console.error(error);
+      console.error('Error al cambiar la contraseña:', error.message);
       Alert.alert("Error", "Ocurrió un error al procesar la solicitud.");
     }
   };
@@ -49,13 +45,6 @@ export default function ResetPassword({ navigation }) {
       <View style={styles.backgroundShapeBottomRight} />
       <Text style={styles.title}>Change your password</Text>
       <View style={styles.loginContainer}>
-        <Text style={styles.label}>Old Password</Text>
-        <Input
-          value={oldPassword}
-          setTextChange={setOldPassword}
-          placeholder="Enter your old password"
-          secureTextEntry={true}
-        />
         <Text style={styles.label}>New Password</Text>
         <Input
           value={newPassword}
@@ -131,7 +120,7 @@ const styles = StyleSheet.create({
   label: {
     alignSelf: 'flex-start',
     color: '#4a4a4a',
-    marginBottom: 5,
+    marginBottom: 10,
   },
   backLink: {
     color: '#0066ff',

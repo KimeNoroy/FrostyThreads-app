@@ -10,24 +10,22 @@ export default function ConfirmCode({ navigation, route }) {
 
   const sendCode = async () => {
     try {
-      const formData = new FormData();
-      formData.append('token', token);
-      formData.append('secretCode', code);
+        const formData = new FormData();
+        formData.append('token', token); // Asegúrate de que el token se está pasando correctamente
+        formData.append('secretCode', code);
+        const result = await fetchData('cliente', 'emailPasswordValidator', formData);
 
-      const result = await fetchData('cliente', 'emailPasswordValidator', formData);
-      
-      if(result.status){
-        Alert.alert("Código verificado", "El código es correcto. Proceda a restablecer su contraseña.");
-        // Navegar a la pantalla de restablecimiento de contraseña
-        navigation.navigate("ResetPassword");
-      } else {
-        Alert.alert("Error", "El código ingresado es incorrecto. Por favor, inténtelo nuevamente.");
-      }
+        if (result.status) {
+            Alert.alert("Código verificado", "El código es correcto. Proceda a restablecer su contraseña.");
+            navigation.navigate("ResetPassword", { token: result.dataset });
+        } else {
+            Alert.alert("Error", result.message || "El código ingresado es incorrecto. Por favor, inténtelo nuevamente.");
+        }
     } catch (error) {
-      console.error(error);
-      Alert.alert("Error", "Ocurrió un error al verificar el código.");
+        console.error("Error verifying code:", error.message);
+        Alert.alert("Error", "Ocurrió un error al verificar el código.");
     }
-  }
+}
 
   return (
     <View style={styles.container}>
@@ -37,8 +35,9 @@ export default function ConfirmCode({ navigation, route }) {
       <View style={styles.loginContainer}>
         <Text style={styles.label}>Code</Text>
         <Input
-          setValor={code}
+          value={code}
           setTextChange={setCode}
+          placeholder="Enter the code sent to your email"
         />
         <Buttons
           textoBoton="Verify Code"
@@ -101,6 +100,7 @@ const styles = StyleSheet.create({
   label: {
     alignSelf: 'flex-start',
     color: '#4a4a4a',
+    marginBottom: 10,
   },
   backLink: {
     color: '#0066ff',
