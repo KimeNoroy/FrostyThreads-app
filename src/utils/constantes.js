@@ -1,1 +1,1 @@
-export const IP = 'https://www.proyectocom.site/FrostyThreads/api'
+export const IP = 'https://www.proyectocom.site/FrostyThreads/api/'
