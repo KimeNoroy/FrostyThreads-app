@@ -28,7 +28,8 @@ if (isset($_GET['action'])) {
             // Acción para agregar un producto al carrito de compras.
             case 'createDetail':
                 $_POST = Validator::validateForm($_POST);
-                if(!$orden->setFecha($_POST['fechaPrenda'])){
+                if(!$orden->setFecha($_POST['fechaPrenda']) or
+                   !$orden->setEstado('pendant')){
                     $result['error'] = $orden->getDataError();
                 }
                 else if (!$orden->startOrder()) {
@@ -72,21 +73,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No results';
                 }
                 break;
-            case 'createRow':
-                $_POST = Validator::validateForm($_POST);
-                if (
-                    !$orden->setIdDomicilio($_POST['idDomicilio']) or
-                    !$orden->setEstado($_POST['estadoOrden']) or 
-                    !$orden->setFecha($_POST('fechaOrden'))
-                ) {
-                    $result['error'] = $orden->getDataError();
-                } elseif ($orden->createRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'orden creada correctamente';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al crear la orden';
-                }
-                break;
+    
             case 'readAllByCostumer':
                 if (
                     !$orden->setIdCliente($_SESSION['idCliente'])

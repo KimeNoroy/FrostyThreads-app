@@ -67,9 +67,9 @@ class OrdenHandler
             return true;
         } else {
             $this->estado = 'pendant';
-            $sql = 'INSERT INTO tb_ordenes(id_cliente, estado_orden,fecha_orden)
-                    VALUES(?,?,?)';
-            $params = array($_SESSION['idCliente'],$this->estado, $this->fecha);
+            $sql = 'INSERT INTO tb_ordenes(id_cliente, estado_orden,fecha_orden, direccion_orden)
+                    VALUES(?,?,?,?)';
+            $params = array($_SESSION['idCliente'],$this->estado, $this->fecha, $this->direccion);
             // Se obtiene el ultimo valor insertado de la llave primaria en la tabla pedido.
             if ($_SESSION['idOrden'] = Database::getLastRow($sql, $params)) {
                 return true;
