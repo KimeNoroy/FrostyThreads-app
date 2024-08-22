@@ -60,13 +60,8 @@ class ComentarioData extends ComentarioHandler
 
     public function setEstado($value)
     {
-        if (!Validator::validateBoolean($value)) {
-            $this->data_error = 'Invalid state';
-            return false;
-        } else{
             $this->estado = $value;
             return true;
-        } 
     }
 
     public function setIdDetalleOrden($value)
