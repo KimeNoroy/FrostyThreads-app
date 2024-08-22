@@ -24,6 +24,16 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Correo de usuario indefinido';
                 }
                 break;
+
+            case 'getName':
+                if($result['dataset'] = $cliente->getName()){
+                    $result['status'] = 1;
+                    $result['message'] = 'Nombre obtenido';
+                }
+                else{
+                    $result['error'] = 'Nombre de usuario indefinido';
+                }
+                break;
             case 'getAddresses':
                 if(!$cliente->setId($_SESSION['idCliente'])){
                     $result['error'] = $cliente->getDataError();

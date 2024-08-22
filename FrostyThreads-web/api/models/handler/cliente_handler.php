@@ -157,6 +157,12 @@ class ClienteHandler
         return Database::executeRow($sql, $params);
     }
 
+    public function getName(){
+        $sql = 'SELECT CONCAT(nombre_cliente," ",apellido_cliente) as nombre from tb_clientes WHERE id_cliente = ?';
+        $params = array($_SESSION['idCliente']);
+        return Database::getRow($sql, $params);
+    }
+
     public function checkStatus()
     {
         if ($this->estado) {

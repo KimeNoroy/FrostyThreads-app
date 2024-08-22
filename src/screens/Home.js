@@ -12,6 +12,7 @@ export default function Home({navigation}) {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [user,setUser] = useState("");
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -30,13 +31,34 @@ export default function Home({navigation}) {
       }
     };
 
+    const setNewUser = ({email}) =>{
+      return email.split('@')[0];
+    };
+    const getUser = async () =>{
+      try {
+        const data = await fetchData('cliente', 'getName');
+        console.log(data);
+        if (data.error) {
+          setError(data.message);
+        } else {
+          let email = String(data.dataset.nombre);
+          setUser(setNewUser({email})); // Asegúrate de que el objeto de respuesta tenga una propiedad 'categories'
+        }
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchCategories();
+    getUser();
   }, []);
 
   if (loading) {
     return (
       <View style={styles.container}>
-        <Header title={"Shop"} />
+        <Header title={"Frosty Threads"} />
         <Text>Loading...</Text>
       </View>
     );
@@ -45,7 +67,7 @@ export default function Home({navigation}) {
   if (error) {
     return (
       <View style={styles.container}>
-        <Header title={"Shop"}/>
+        <Header title={"Frosty Threads"}/>
         <Text>{error}</Text>
       </View>
     );
@@ -63,6 +85,7 @@ export default function Home({navigation}) {
   return (
     <View style={styles.container}>
       <Header title={"Shop"} />
+      <Text style={styles.totalText}>Hello, {user}</Text>
       <FlatList
         data={categories}
         renderItem={renderItem}
@@ -87,5 +110,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     marginBottom: 10,
+  },
+  totalText: {
+    fontSize: 28,
+    fontWeight: 'bold',
   },
 });
